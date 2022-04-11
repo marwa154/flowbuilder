@@ -13,15 +13,15 @@
     <div>
     <div><button onclick="addNode();">ADD NODE</button></div>
       <div >
-         <div id="myDiagramDiv"style="width:1100px; height:700px; background-color: #DAE4E4;"></div>
+         <div id="myDiagramDiv"style="width:1100px; height:500px; background-color: #DAE4E4;"></div>
          <div>
            <button id="SaveButton" onclick="save()" >Save</button>
            <button id="SaveBPButton" onclick=" saveBP() " >SavetoBP</button>
           <textarea id="mySavedModel" style="width:100%;height:200px">{  }</textarea>
           <textarea id="mySavedBPModel" style="width:100%;height:200px">{  }</textarea>
         </div>  
-         <div class="myNodeProperties" id="myNodeProperties" style=" display:none;float:right;background-color: white ;width: 400px; margin-left: 2px; height: 700px;border: 1px solid black;  position: relative;
-         top: -1140px;">
+         <div class="myNodeProperties" id="myNodeProperties" style=" display:none;float:right;background-color: white ;width: 400px; margin-left: 2px; height: 500px;border: 1px solid black;  position: relative;
+         top: -940px;">
           
           <h3 style=" margin-left: 15px;">Node Properties</h3>
         <input id="nameNode"type="text"  style="width: 75%; margin-left: 3px; height: 30px;"/>
@@ -36,12 +36,10 @@
           top: 8px;">
           <h3>Add new action </h3>  
           <p>The bot will:</p>
-         <div class="dropdown">
-          <button class="dropbtn">Say Something
-            <i class="fa fa-caret-down"></i>
-          </button>
+         <div class="dropdown" >
+          <button class="dropbtn" onclick="show1();show02()">Say Something</button>
         
-          <div class="dropdown-content">
+          <div class="dropdown-content" id="dropdown-content" style="display: none;">
             <a href="#openModal">Text</a>
             <div id="openModal" class="modalDialog">
               <div>
@@ -78,13 +76,13 @@
         </div>
           </div>
           </div>
-          
-          <div class="dropdown" style="margin-left: 2px;">
-            <button class="dropbtn">Execute code 
+  
+          <div class="dropdown">            
+            <button class="dropbtn"onclick="show2();show01()" style="margin-left:2px">Execute code 
               <i class="fa fa-caret-down"></i>
             </button>
           
-            <div class="dropdown-content" >
+            <div class="dropdown-content" id="dropdown-content2" style=" display:none;">
               <a href="#openModal3" > analytics_set </a>
               <div id="openModal3" class="modalDialog1">
                 <div>

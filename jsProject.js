@@ -17,23 +17,11 @@ myDiagram = new go.Diagram(
   });
 
 myDiagram.model = new go.GraphLinksModel(nodeDataArray,linkDataArray);
-
-// let selectedBPNode = new BPNode();
-// let selectedGoNode = new go.Node("Auto", {
-//   margin: 5,
-//   background: "red"
-// });
+myDiagram.model.linkFromPortIdProperty="fromPort";  // required information:
+myDiagram.model.linkToPortIdProperty= "toPort";
 
 function init(){
   var   $ = go.GraphObject.make;
-  // mygDiagram = $(go.Diagram ,"myDiagramDiv",
-  //   {   
-  //     // have mouse wheel events zoom in and out instead of scroll up and down
-  //     "toolManager.mouseWheelBehavior": go.ToolManager.WheelZoom,
-  //     "linkingTool.direction": go.LinkingTool.ForwardsOnly,
-  //     "undoManager.isEnabled": true,
-      
-  //   });
     myDiagram.div = document.getElementById("myDiagramDiv");
     myDiagram.nodeTemplate =
         $(go.Node, "Spot", { click: showDivprop},
@@ -104,8 +92,8 @@ function entierAleatoire(){
 
 function addNode(){
     var myPoint = (go.Point, {x: entierAleatoire(), y:-entierAleatoire()});
-       let x=-myPoint.x;
-       let y=myPoint.y;
+       let x=myPoint.x;
+       let y=-myPoint.y;
        let txt = "entry";
        if(nodeDataArray.length!=0) txt=generate();
         var b = {key: txt, text: txt, items: [ "always", enEnterSysomething() ],loc: x+" "+y}
@@ -162,16 +150,17 @@ function enEnterExecuteCode(){
 
 
 function changeNodeText(){
-  
   var fieldText = document.getElementById("nameNode").value;
   var SelectedNode = myDiagram.selection.first();
-  
   if (SelectedNode !== null) {
-    myDiagram.model.startTransaction("Changing the node name");
-    console.log(myDiagram.model.findNodeDataForKey(SelectedNode.data.key));
-     myDiagram.model.findNodeDataForKey(SelectedNode.data.key).text = fieldText;
-    myDiagram.model.commitTransaction("Changing the node name");
+    // myDiagram.model.startTransaction("Changing the node name");
+    // console.log(myDiagram.model.findNodeDataForKey(SelectedNode.data.key));
+    //  myDiagram.model.findNodeDataForKey(SelectedNode.data.key).text = fieldText;
+    // myDiagram.model.commitTransaction("Changing the node name");
+    SelectedNode.data.text=fieldText ;
+    
   }  
+  myDiagram.model = new go.GraphLinksModel(nodeDataArray,linkDataArray);
 }
 
 function save() {
@@ -186,6 +175,7 @@ function saveBP() {
  
 }
 
+///function for div Property
 function showDivprop() {
     return document.getElementById('myNodeProperties').style.display = "";
   }
@@ -193,4 +183,20 @@ function showDivprop() {
 function showDivOnEnter() {
     return document.getElementById('onEnter').style.display = "";
   }
+
+function show1() {
+  return document.getElementById('dropdown-content').style.display = ""; 
+    }
+
+function show2() {
+      return document.getElementById('dropdown-content').style.display = "none"; 
+        }
+function show01() {
+          return document.getElementById('dropdown-content2').style.display = ""; 
+            }
+        
+function show02() {
+              return document.getElementById('dropdown-content2').style.display = "none"; 
+                }
+
 
