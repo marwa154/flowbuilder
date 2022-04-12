@@ -15,13 +15,13 @@ myDiagram = new go.Diagram(
     "undoManager.isEnabled": true,
     
   });
+  myDiagram.model = new go.GraphLinksModel(nodeDataArray,linkDataArray);
+  myDiagram.model.linkFromPortIdProperty="fromPort";  // required information:
+  myDiagram.model.linkToPortIdProperty= "toPort";
 
-myDiagram.model = new go.GraphLinksModel(nodeDataArray,linkDataArray);
-myDiagram.model.linkFromPortIdProperty="fromPort";  // required information:
-myDiagram.model.linkToPortIdProperty= "toPort";
 
 function init(){
-  var   $ = go.GraphObject.make;
+    var   $ = go.GraphObject.make;
     myDiagram.div = document.getElementById("myDiagramDiv");
     myDiagram.nodeTemplate =
         $(go.Node, "Spot", { click: showDivprop},
@@ -113,15 +113,20 @@ function addNode(){
 }
 
 function addLink(){
+  // myDiagram.startTransaction("make new link");
+  // myDiagram.model.addLinkData();
+  // myDiagram.commitTransaction("make new link");
   for(let i=0;i<linkDataArray.length;i++){
-    let datalink =  mygDiagram.model.linkDataArray[i];
+    let datalink =  myDiagram.model.linkDataArray[i];
     let source=datalink.from;
     let sourcePort=datalink.fromPort;
     let link=new BPLink(source, sourcePort,"5abeb92305"); 
     //let x=datalink.points.x;
    // let y=datalink.points.y;
     console.log(link);
+    
   }
+
 }   
 
 
@@ -130,7 +135,9 @@ function enEnterSysomething(){
   var SelectedNode = myDiagram.selection.first();
   var b="say: ";
   if (SelectedNode !== null) {
-    SelectedNode.data.items[2]=b+fieldText;   
+    SelectedNode.data.items[2]=b+fieldText; 
+   //myDiagram.model=new go.GraphLinksModel(nodeDataArray,linkDataArray);
+
   }
 }
 function enEnterExecuteCode(){
@@ -148,31 +155,29 @@ function enEnterExecuteCode(){
  console.log(action1.getString());
 }
 
-
 function changeNodeText(){
   var fieldText = document.getElementById("nameNode").value;
-  var SelectedNode = myDiagram.selection.first();
+   SelectedNode= myDiagram.selection.first();
+  //TextBlock(fieldText,SelectedNode.data.text )
+  //textEdited(SelectedNode.data.text, myDiagram.model.findNodeDataForKey(SelectedNode.data.key).text, fieldText)
   if (SelectedNode !== null) {
-    // myDiagram.model.startTransaction("Changing the node name");
-    // console.log(myDiagram.model.findNodeDataForKey(SelectedNode.data.key));
-    //  myDiagram.model.findNodeDataForKey(SelectedNode.data.key).text = fieldText;
-    // myDiagram.model.commitTransaction("Changing the node name");
-    SelectedNode.data.text=fieldText ;
-    
-  }  
-  myDiagram.model = new go.GraphLinksModel(nodeDataArray,linkDataArray);
+    myDiagram.model.startTransaction("Changing the node name");
+    myDiagram.model.findNodeDataForKey(SelectedNode.data.key).text = fieldText;
+    console.log(myDiagram.model.findNodeDataForKey(SelectedNode.data.key));
+    myDiagram.model.commitTransaction("Changing the node name");
+  }
+
+ // myDiagram.model=new go.GraphLinksModel(nodeDataArray,linkDataArray); 
+
 }
 
 function save() {
-
     document.getElementById("mySavedModel").value = myDiagram.model.toJson();
     myDiagram.isModified = false;
-
 }
 
 function saveBP() {
   document.getElementById("mySavedBPModel").value = JSON.stringify(myBPdiagram);
- 
 }
 
 ///function for div Property
@@ -185,18 +190,18 @@ function showDivOnEnter() {
   }
 
 function show1() {
-  return document.getElementById('dropdown-content').style.display = ""; 
-    }
+    return document.getElementById('dropdown-content').style.display = ""; 
+  }
 
 function show2() {
-      return document.getElementById('dropdown-content').style.display = "none"; 
-        }
+   return document.getElementById('dropdown-content').style.display = "none"; 
+  }
 function show01() {
-          return document.getElementById('dropdown-content2').style.display = ""; 
-            }
+   return document.getElementById('dropdown-content2').style.display = ""; 
+  }
         
 function show02() {
-              return document.getElementById('dropdown-content2').style.display = "none"; 
-                }
+   return document.getElementById('dropdown-content2').style.display = "none"; 
+  }
 
 
