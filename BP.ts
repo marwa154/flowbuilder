@@ -86,10 +86,10 @@ class  BPAction{
             case BPActionType.say :
                 return  "say "+ this.getFirstParameter();
             case BPActionType.analytics_set :
-                return "analytics/set "+this.getFirstParameter() +","+this.geSecondParameter()+","+this.getThirdParameter();
-                //analytics/set {\"metric\":\"val1\",\"group\":\"all\",\"count\":\"1\"}
+                //return "analytics/set {\\\"metric\\\":\\\""+this.getFirstParameter() +"\\\",\\\"group\\\":\\\""+this.geSecondParameter()+"\\\",\\\"count\\\":\\\""+this.getThirdParameter()+"\\\"}";
+                return "analytics/set {\"metric\":\""+this.getFirstParameter()+"\",\"group\":\""+this.geSecondParameter()+"\",\"count\":\""+this.getThirdParameter()+"\"}"
             case BPActionType.basic_skills_slot_reset :
-                return "channel-web/sendDataToChat"+ this.getFirstParameter()+this.geSecondParameter();  
+               return "channel-web/sendDataToChat {\"data\":\""+this.getFirstParameter() +"\"}"
             case 3 :
                 return "builtin/switchLanguage"+ this.getFirstParameter();  
             case 4 :
@@ -116,8 +116,8 @@ class  BPAction{
                 return "builtin/resetSession"+ this.getFirstParameter();  
             case 15 :
                 return "builtin/setGlobalVariable"+ this.getFirstParameter();  
-            case 16 :
-                return "builtin/setVariable"+ this.getFirstParameter();
+            case BPActionType.builtin_setVariable :
+                return "builtin/setVariable {\"type\":\""+this.getFirstParameter()+"\",\"name\":\""+this.geSecondParameter()+"\",\"value\":\""+this.getThirdParameter()+"\"}"
             case 17 :
                 return "builtin/storeFileLocally"+ this.getFirstParameter();  
             case 18 :
@@ -167,6 +167,10 @@ class BPNode{
         this.y=y;
         this.lastModified=new Date();
         this.type=type;
+    }
+
+    setName(newName: string){
+        this.name = newName;
     }
 
     addTransition(transition:BPTransition)
@@ -267,6 +271,10 @@ class BPFlow {
     addNode(node: BPNode){
       
         this.nodes.push(node);
+    }
+
+    getNodeById(nodeid: string){
+        return this.nodes.filter(node => node.id === nodeid ).shift()
     }
 
     addLink(link: BPLink){

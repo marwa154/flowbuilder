@@ -108,7 +108,7 @@
                    </tr>
                     
                  </table>
-                 <button type="submit" value="Submit" onclick="enEnterExecuteCode()">Add Action</button>
+                 <button type="submit" value="Submit" onclick="enEnterExecuteCodeanalytics_set()">Add Action</button>
                  <button type="reset" value="Reset">Cancel</button>
                 </form>
                 </div>
@@ -131,14 +131,14 @@
                   </tr>
                   
              </table>
-             <button type="submit" value="Submit">Add Action</button>
+             <button type="submit" value="Submit" onclick="enEnterExecutechannel_web()">Add Action</button>
              <button type="reset" value="Reset">Cancel</button>
             </form>
       </div> 
           </div>
     </div> 
     <div>
-      <a href="#openModal5"> Storage -Get global variable</a>
+      <a href="#openModal5"> Storage -Set Variable</a>
       <div id="openModal5" class="modalDialog1">
         <div>
           <a href="#close" title="Close" class="close">X</a>
@@ -149,14 +149,19 @@
                <td width="35%" >value</td>
             </tr>
             <tr>
+              <td width="35%">type</td>
+              <td width="35%"><input type="text" id="valsetV1"  style="width: 145px; margin-left: 3px; height: 15px;"></td>
+            </tr>
+            <tr>
                <td width="35%">name</td>
-               <td width="35%"><input type="text" id="val2"  style="width: 145px; margin-left: 3px; height: 15px;"></td>
-              </tr>
-              <td width="35%">output</td>
-              <td width="35%"><input type="text" id="val2"  style="width: 145px; margin-left: 3px; height: 15px;"></td>
-             </tr>
+               <td width="35%"><input type="text" id="valsetV2"  style="width: 145px; margin-left: 3px; height: 15px;"></td>
+            </tr>
+            <tr>
+              <td width="35%">value</td>
+              <td width="35%"><input type="text" id="valset3"  style="width: 145px; margin-left: 3px; height: 15px;"></td>
+            </tr>
          </table>
-         <button type="submit" value="Submit">Add Action</button>
+         <button type="submit" value="Submit" onclick="enEnterExecuteSetVariable()">Add Action</button>
          <button type="reset" value="Reset">Cancel</button>
         </form>
   </div> 
