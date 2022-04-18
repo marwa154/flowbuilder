@@ -23,11 +23,11 @@ function init(){
     myDiagram.div = document.getElementById("myDiagramDiv");
     myDiagram.nodeTemplate =
         $(go.Node, "Spot", { click: showDivprop},
-        new go.Binding("location", "loc", go.Point.parse).makeTwoWay(go.Point.stringify),
+        new go.Binding("location", "location", go.Point.parse).makeTwoWay(go.Point.stringify),
         $(go.Shape, "RoundedRectangle", { figure: "RoundedRectangle", fill: "white", stroke: "#f5f5f5" ,cursor: "pointer",
-              width: 190, height: 100, toEndSegmentLength: 50, fromEndSegmentLength: 100}
+              width: 190, height: 100}
               ),
-        $(go.TextBlock, "TEXT",new go.Binding("text", "text1"),{ font: "bold 12pt serif",width: 150, height: 80,margin:5}),
+        $(go.TextBlock, "TEXT",new go.Binding("text", "text"),{ font: "bold 12pt serif",width: 150, height: 80,margin:5}),
         $(go.Panel, "Vertical",
             new go.Binding("itemArray", "items"),
                  {
@@ -65,8 +65,8 @@ function init(){
          
    myDiagram.linkTemplate =
         $(go.Link,{routing:  go.Link.Orthogonal, curve: go.Link.Bezier  },
-          new go.Binding("points").makeTwoWay(),
-        $(go.Shape, {stroke: "#898282", strokeWidth: 2 }),
+          new go.Binding("points","points",go.Point.parse).makeTwoWay(),
+        $(go.Shape,{stroke: "#898282", strokeWidth: 2 }),
         
               
   );
@@ -91,38 +91,44 @@ function entierAleatoire(){
 function addNode(){
     var myPoint = (go.Point, {x: entierAleatoire(), y:-entierAleatoire()});
        let x=myPoint.x;
-       let y=-myPoint.y;
+       let y=myPoint.y;
        let txt = "entry";
+       var x1= parseFloat(x);
+       var y1 = parseFloat(y); 
        if(nodeDataArray.length!=0)
         txt=generate();
-        var b = {key: txt, text1: txt, items: [ "always", enEnterSysomething() ],loc: x+" "+y}
-        var x1= parseFloat(x);
-        var y1 = parseFloat(y);  
-        // myDiagram.model.nodeDataArray.push(b);
+        var b = {key: txt, text: txt, items: [ "always", enEnterSysomething() ],location: x+" "+y}
         myDiagram.model.addNodeData(b);
-        var bpnode=new BPNode(b.key,b.text1, x1,y1,new Date());
+        var bpnode=new BPNode(b.key,b.text, x1,y1,new Date());
         console.log(bpnode);
         myBPdiagram.flow.addNode(bpnode);
+        if(b.text!="entry"){
+          transition=new BPTransition("true",b.text);
+          bpnode.addTransition(transition)
+        }
+
 }
 
 function addLink(){
-  // myDiagram.startTransaction("make new link");
-  // myDiagram.model.addLinkData({ from: "Alpha", to: "Beta" });
-  // myDiagram.commitTransaction("make new link");
-  for(let i=0;i<linkDataArray.length;i++){
-    let datalink =  myDiagram.model.linkDataArray[i];
+  //myDiagram.model.isLinked("fromport", "toport");
+    let datalink =  myDiagram.model
     let source=datalink.from;
     let sourcePort=datalink.fromPort;
     let link=new BPLink(source, sourcePort,"5abeb92305"); 
-    //let x=datalink.points.x;
-   // let y=datalink.points.y;
-    console.log(link);
-    
-  }
-
-}   
-
-
+    let p1=myDiagram.model.Link.points.getPoint(0);
+    let p2=datalink.Link.points.getPoint(1);
+    console.log(p1);
+ }
+ 
+   ////////changer le nom d'un noued   
+function changeNodeText(){
+  var fieldText = document.getElementById("nameNode").value;
+  SelectedNode= myDiagram.selection.first();
+  const node = myDiagram.findNodeForKey(SelectedNode.data.key);
+  myDiagram.model.set(node.data, "text",  fieldText);
+  myBPdiagram.flow.getNodeById(SelectedNode.data.key).setName(fieldText);
+}
+///////////// on Enter actions////////////
 function enEnterSysomething(){
   var fieldText = document.getElementById("createText").value; 
   var SelectedNode = myDiagram.selection.first();
@@ -130,7 +136,7 @@ function enEnterSysomething(){
    if (SelectedNode !== null) {
     SelectedNode.data.items.push(fieldText);
     myDiagram.model.addArrayItem(SelectedNode.data.items,b+fieldText)
-    let param1 = new BPActionParameter("texttosay","#!builtin_text-LkFuYV");
+    let param1 = new BPActionParameter("texttosay","#!builtin_text-7aOCSN");
     let action1=new BPAction(BPActionType.say);
     action1.addParameter(param1)
     myBPdiagram.flow.getNodeById(SelectedNode.data.key).addEnterAction(action1.getString());
@@ -184,13 +190,76 @@ function enEnterExecuteSetVariable(){
     }
 
 }
-function changeNodeText(){
-  var fieldText = document.getElementById("nameNode").value;
-  SelectedNode= myDiagram.selection.first();
-  const node = myDiagram.findNodeForKey(SelectedNode.data.key);
-  myDiagram.model.set(node.data, "text1",  fieldText);
-  myBPdiagram.flow.getNodeById(SelectedNode.data.key).setName(fieldText);
+///////////////////on Receive action////////////
+function onReceiveSysomething(){
+  var fieldText = document.getElementById("createText1").value; 
+  var SelectedNode = myDiagram.selection.first();
+  var b="say: ";
+   if (SelectedNode !== null) {
+    SelectedNode.data.items.push(fieldText);
+    myDiagram.model.addArrayItem(SelectedNode.data.items,b+fieldText)
+    let param1 = new BPActionParameter("texttosay","#!builtin_text-pzqrjW");
+    let action1=new BPAction(BPActionType.say);
+    action1.addParameter(param1)
+    myBPdiagram.flow.getNodeById(SelectedNode.data.key).addReceiveAction(action1.getString());
+
+   }
+  }
+
+function onReceiveExecuteCodeanalytics_set(){
+  var metric= document.getElementById("panalytics 1").value;
+  var group= document.getElementById("panalytics 2").value;
+  var count= document.getElementById("panalytics 3").value;
+  let param1 = new BPActionParameter("metric",metric);
+  let param2 = new BPActionParameter("group",group);
+  let param3 = new BPActionParameter("count",count);
+  let action2=new BPAction(BPActionType.analytics_set);
+    action2.addParameter(param1);
+    action2.addParameter(param2);
+    action2.addParameter(param3);
+  var SelectedNode = myDiagram.selection.first();
+    if (SelectedNode !== null) {
+      console.log(action2.getString());
+      myBPdiagram.flow.getNodeById(SelectedNode.data.key).addReceiveAction(action2.getString());
+    }
 }
+function onReceiveExecuteChannel_web(){
+  var Data= document.getElementById("val02").value;
+  let param1 = new BPActionParameter("data",Data);
+  let action2=new BPAction(BPActionType.basic_skills_slot_reset);
+    action2.addParameter(param1);
+  var SelectedNode = myDiagram.selection.first();
+    if (SelectedNode !== null) {
+      console.log(action2.getString());
+      myBPdiagram.flow.getNodeById(SelectedNode.data.key).addReceiveAction(action2.getString());
+    }
+}
+function onReceiveExecuteSetVariable(){
+  var type= document.getElementById("valsetV01").value;
+  var name= document.getElementById("valsetV02").value;
+  var val= document.getElementById("valset03").value;
+  let param1 = new BPActionParameter("type",type);
+  let param2 = new BPActionParameter("name",name);
+  let param3 = new BPActionParameter("value",val);
+  let action2=new BPAction(BPActionType.builtin_setVariable);
+    action2.addParameter(param1);
+    action2.addParameter(param2);
+    action2.addParameter(param3);
+  var SelectedNode = myDiagram.selection.first();
+    if (SelectedNode !== null) {
+      console.log(action2.getString());
+      myBPdiagram.flow.getNodeById(SelectedNode.data.key).addReceiveAction(action2.getString());
+    }
+}
+//////////transition
+function addTransition(){
+  var SelectedNode = myDiagram.selection.first();
+  if (SelectedNode !== null) {
+    transition=new BPTransition(true,"")
+    myBPdiagram.flow.getNodeById(SelectedNode.data.key).addTransition(transition);
+  } 
+} 
+
 
 function save() {
     document.getElementById("mySavedModel").value = myDiagram.model.toJson();
@@ -209,20 +278,53 @@ function showDivprop() {
 function showDivOnEnter() {
     return document.getElementById('onEnter').style.display = "";
   }
+  function showDivOnEnter1() {
+    return document.getElementById('onEnter').style.display = "none";
+  }
+  function showDivRecieve() {
+    return document.getElementById('onRecieve').style.display = "";
+  }
+  function showDivRecieve1() {
+    return document.getElementById('onRecieve').style.display = "none";
+  }
+  function showDivTransition(){
+    return document.getElementById('transition').style.display = "";
+  }
+
 
 function show1() {
-    return document.getElementById('dropdown-content').style.display = ""; 
+    return document.getElementById('dropdown-content').style.display = "";
   }
 
 function show2() {
-   return document.getElementById('dropdown-content').style.display = "none"; 
+    return document.getElementById('dropdown-content').style.display = "none";
   }
+
 function show01() {
-   return document.getElementById('dropdown-content2').style.display = ""; 
+    return document.getElementById('dropdown-content2').style.display = "";
   }
         
 function show02() {
-   return document.getElementById('dropdown-content2').style.display = "none"; 
+    return document.getElementById('dropdown-content2').style.display = "none";  
+  }
+
+function show3() {
+    return document.getElementById('dropdown-content3').style.display = ""; 
+  }
+
+function show4() {
+    return document.getElementById('dropdown-content3').style.display = "none";
+
+  }
+
+function show03() {
+    return document.getElementById('dropdown-content4').style.display = "";
+
+  }
+        
+function show04() {
+    return document.getElementById('dropdown-content4').style.display = "none"; 
+  
   }
 
 

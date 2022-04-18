@@ -28,16 +28,17 @@
         <button id="SaveNom" onclick="changeNodeText()">save name</button>
   
           <ul>
-              <button onclick="showDivOnEnter()">On Enter</button>
-              <button onclick="showDivOnEnter()">On Receive</button>
-              <button onclick="">Transitions</button>  
+              <button onclick="showDivOnEnter(),showDivRecieve1()">On Enter</button>
+              <button onclick="showDivRecieve(),showDivOnEnter1()">On Receive</button>
+              <button onclick="showDivRecieve1(),showDivOnEnter1(),showDivTransition()">Transitions</button>  
           </ul>
+          <!-- on Enter -->
           <div class="onEnter" id="onEnter" style="  display:none;background-color:white; margin-left: 10px;width: 380px; height: 470px;border: 2px solid whitesmoke;  position: relative;
           top: 8px;">
           <h3>Add new action </h3>  
           <p>The bot will:</p>
          <div class="dropdown" >
-          <button class="dropbtn" onclick="show1();show02()">Say Something</button>
+          <button class="dropbtn"onclick="show1();show02()" >Say Something</button>
         
           <div class="dropdown-content" id="dropdown-content" style="display: none;">
             <a href="#openModal">Text</a>
@@ -169,6 +170,152 @@
   </div> 
   </div>
   </div>
+</div>
+<!-- on receive -->
+<div class="onEnter" id="onRecieve" style=" display: none; background-color:white; margin-left: 10px;width: 380px; height: 470px;border: 2px solid whitesmoke;  position: relative;
+top: 8px;">
+<h3>Add new action </h3>  
+<p>The bot will:</p>
+<div>
+  <input type="checkbox" id="horns" name="horns">
+  <label for="horns">Wait for user message</label>
+</div>
+<div class="dropdown" >
+<button class="dropbtn" onclick="show3();show04()">Say Something</button>
+
+<div class="dropdown-content" id="dropdown-content3" style="display: none;">
+  <a href="#openModal01">Text</a>
+  <div id="openModal01" class="modalDialog">
+    <div>
+      <a href="#close" title="Close" class="close">X</a>
+      <h3>Create new Text</h3>
+      <p><input type="text" id="createText1" ></p><input type="button" value="Add text" onclick="onReceiveSysomething();"> 
+    </div>
+    <a href="#close" title="Close" class="close">x</a>
+</div>
+  
+  
+    <a href="#openModal02">Image</a>
+    <div id="openModal02" class="modalDialog">
+      <div>
+        <a href="#close" title="Close" class="close">X</a>
+        <p>Create new Image</p>
+        <p>Title</Title><input type="text"></p>
+        <p><input type="file" id="avatar" name="avatar"accept="image/png, image/jpeg"></p>
+        <input type="button" value="Add Image"> 
+      </div>
+
+    </div>
+
+<a href="#openModal03">video</a>
+<div id="openModal03" class="modalDialog">
+    <div>
+      <a href="#close" title="Close" class="close">X</a>
+      <h2>Create new video</h2>
+      <p>Title</Title><input type="text"></p>
+      <p><input type="file" id="avatar" name="avatar"accept="image/png, image/jpeg"></p>
+      <input type="button" value="Add video"> 
+    </div>
+  
+</div>
+</div>
+</div>
+
+<div class="dropdown">            
+  <button class="dropbtn"onclick="show4();show03()" style="margin-left:2px">Execute code </button>
+
+  <div class="dropdown-content" id="dropdown-content4" style=" display:none;">
+    <a href="#openModal04" > analytics_set </a>
+    <div id="openModal04" class="modalDialog1">
+      <div>
+        <a href="#close" title="Close" class="close">X</a>
+        <h3>Action Parameters </h3>
+      <form>
+        <table  cellspacing="0" cellpadding="6">
+          <tr>
+             <td width="35%" >name</td>
+             <td width="35%" >value</td>
+          </tr>
+          <tr>
+             <td width="35%" >metric</td>
+             <td width="35%"><input type="text" id="panalytics01"   style="width: 145px; margin-left: 3px; height: 15px;"></td>
+          </tr>
+          <tr>
+             <td width="35%" >group</td>
+             <td width="35%"><input type="text" id="panalytics02"  style="width: 145px; margin-left: 3px; height: 15px;"></td>
+          </tr>
+          <tr>
+            <td width="35%" >count</td>
+            <td width="35%"><input type="text" id="panalytics03"  style="width: 145px; margin-left: 3px; height: 15px;"></td>
+         </tr>
+          
+       </table>
+       <button type="submit" value="Submit" onclick="onReceiveExecuteCodeanalytics_set()">Add Action</button>
+       <button type="reset" value="Reset">Cancel</button>
+      </form>
+      </div>
+    
+</div>
+<div>
+<a href="#openModal05"> Channel Web</a>
+<div id="openModal05" class="modalDialog1">
+  <div>
+    <a href="#close" title="Close" class="close">X</a>
+    <h3>Action Parameters </h3>
+    <table  cellspacing="0" cellpadding="6">
+      <tr>
+         <td width="35%" >name</td>
+         <td width="35%" >value</td>
+      </tr>
+      <tr>
+         <td width="35%">Data</td>
+         <td width="35%"><input type="text" id="val02"  style="width: 145px; margin-left: 3px; height: 15px;"></td>
+        </tr>
+        
+   </table>
+   <button type="submit" value="Submit" onclick="onReceiveExecuteChannel_web()">Add Action</button>
+   <button type="reset" value="Reset">Cancel</button>
+  </form>
+</div> 
+</div>
+</div> 
+<div>
+<a href="#openModal06"> Storage -Set Variable</a>
+<div id="openModal06" class="modalDialog1">
+<div>
+<a href="#close" title="Close" class="close">X</a>
+<h3>Action Parameters </h3>
+<table  cellspacing="0" cellpadding="6">
+  <tr>
+     <td width="35%" >name</td>
+     <td width="35%" >value</td>
+  </tr>
+  <tr>
+    <td width="35%">type</td>
+    <td width="35%"><input type="text" id="valsetV01"  style="width: 145px; margin-left: 3px; height: 15px;"></td>
+  </tr>
+  <tr>
+     <td width="35%">name</td>
+     <td width="35%"><input type="text" id="valsetV02"  style="width: 145px; margin-left: 3px; height: 15px;"></td>
+  </tr>
+  <tr>
+    <td width="35%">value</td>
+    <td width="35%"><input type="text" id="valset03"  style="width: 145px; margin-left: 3px; height: 15px;"></td>
+  </tr>
+</table>
+<button type="submit" value="Submit" onclick="onReceiveExecuteSetVariable()">Add Action</button>
+<button type="reset" value="Reset">Cancel</button>
+</form>
+</div> 
+</div>
+</div> 
+</div>
+</div>
+</div>
+<!-- transition -->
+<div class="onEnter" id="transition" style="  display:none;background-color:white; margin-left: 10px;width: 380px; height: 470px;border: 2px solid whitesmoke;  position: relative;
+top: 8px;">
+
 </div>
   </body>
   </html>
