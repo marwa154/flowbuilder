@@ -16,7 +16,7 @@ myDiagram = new go.Diagram(
   myDiagram.model = new go.GraphLinksModel(nodeDataArray,linkDataArray);
   myDiagram.model.linkFromPortIdProperty="fromPort";  // required information:
   myDiagram.model.linkToPortIdProperty= "toPort";
-
+  var SelectedNode = myDiagram.selection.first();
 
 function init(){
     var   $ = go.GraphObject.make;
@@ -102,22 +102,19 @@ function addNode(){
         var bpnode=new BPNode(b.key,b.text, x1,y1,new Date());
         console.log(bpnode);
         myBPdiagram.flow.addNode(bpnode);
-        if(b.text!="entry"){
-          transition=new BPTransition("true",b.text);
-          bpnode.addTransition(transition)
-        }
-
 }
 
 function addLink(){
   //myDiagram.model.isLinked("fromport", "toport");
-    let datalink =  myDiagram.model
+    let datalink = myDiagram.model.linkDataArray[0];
     let source=datalink.from;
     let sourcePort=datalink.fromPort;
     let link=new BPLink(source, sourcePort,"5abeb92305"); 
-    let p1=myDiagram.model.Link.points.getPoint(0);
-    let p2=datalink.Link.points.getPoint(1);
-    console.log(p1);
+    // let p1=datalink.Link.points.getPoint(0);
+    // let p2=datalink.Link.points.getPoint(1);
+    // link.addpoint(p1);
+    // link.addpoint(p2);
+    console.log(link);
  }
  
    ////////changer le nom d'un noued   
@@ -252,14 +249,29 @@ function onReceiveExecuteSetVariable(){
     }
 }
 //////////transition
-function addTransition(){
-  var SelectedNode = myDiagram.selection.first();
+function AddTransition(){
+  SelectedNode= myDiagram.selection.first();
   if (SelectedNode !== null) {
-    transition=new BPTransition(true,"")
-    myBPdiagram.flow.getNodeById(SelectedNode.data.key).addTransition(transition);
-  } 
-} 
+    for(let i=0;i<nodeDataArray.length;i++){ 
+      if(nodeDataArray.length===1){
+        transition=new BPTransition("true",""); 
+        myBPdiagram.flow.getNodeById(SelectedNode.data.key).addTransition(transition);
+      }
+      else{
+        transition=new BPTransition("true",nodeDataArray[i+1]); 
+        myBPdiagram.flow.getNodeById(SelectedNode.data.key).addTransition(transition);
+      }
+    }      
+  }
+}
+  
+   
 
+function elementselect(){
+  for (var i=0;i<nodeDataArray.length;i++){
+    document.write("<option>"+nodeDataArray[i].text+"</option>");
+  }
+}
 
 function save() {
     document.getElementById("mySavedModel").value = myDiagram.model.toJson();
@@ -289,6 +301,9 @@ function showDivOnEnter() {
   }
   function showDivTransition(){
     return document.getElementById('transition').style.display = "";
+  }
+  function showDivTransition1(){
+    return document.getElementById('transition').style.display = "none";
   }
 
 
@@ -324,7 +339,9 @@ function show03() {
         
 function show04() {
     return document.getElementById('dropdown-content4').style.display = "none"; 
-  
-  }
+ }
+
+
+ 
 
 

@@ -172,7 +172,9 @@ class BPNode{
     setName(newName: string){
         this.name = newName;
     }
-
+    getName(){
+        return this.name;                    
+    }
     addTransition(transition:BPTransition)
     {
         this.next.push(transition);

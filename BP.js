@@ -136,6 +136,9 @@ var BPNode = /** @class */ (function () {
     BPNode.prototype.setName = function (newName) {
         this.name = newName;
     };
+    BPNode.prototype.getName = function () {
+        return this.name;
+    };
     BPNode.prototype.addTransition = function (transition) {
         this.next.push(transition);
     };
