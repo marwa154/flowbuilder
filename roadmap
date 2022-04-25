@@ -1,0 +1,6 @@
+1. add transition/condition entity
+2. add contents
+3. add intents
+4. add persistence (rdbms postgres) tobedefined
+5. Revamp the UI
+
