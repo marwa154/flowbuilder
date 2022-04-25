@@ -30,7 +30,7 @@
           <ul>
               <button onclick="showDivOnEnter(),showDivRecieve1(),showDivTransition1()">On Enter</button>
               <button onclick="showDivRecieve(),showDivOnEnter1(),showDivTransition1()">On Receive</button>
-              <button onclick="showDivTransition(),showDivRecieve1(),showDivOnEnter1()">Transitions</button>  
+              <button onclick="showDivTransition(),showDivRecieve1(),showDivOnEnter1(),AddTransition()">Transitions</button>  
           </ul>
           <!-- on Enter -->
           <div class="onEnter" id="onEnter" style="  display:none;background-color:white; margin-left: 10px;width: 380px; height: 470px;border: 2px solid whitesmoke;  position: relative;
@@ -318,8 +318,9 @@ top: 8px;">
 <fieldset>
   <legend><h2>condition :</h2></legend>
   <div>
-    <input type="checkbox" id="coding" name="interest" value="true">
-    <label for="coding">always</label>
+    <input type="checkbox" id="condition1" value="true" onclick="AddTransition() " >
+    <label for="coding">Raw Expression (advanced)</label>
+
   </div>
 </fieldset>
  <fieldset>

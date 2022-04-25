@@ -110,12 +110,30 @@ function addLink(){
     let source=datalink.from;
     let sourcePort=datalink.fromPort;
     let link=new BPLink(source, sourcePort,"5abeb92305"); 
+    let p1=new Point(995,40)
+    let p2=new Point(1176,-80)
     // let p1=datalink.Link.points.getPoint(0);
     // let p2=datalink.Link.points.getPoint(1);
-    // link.addpoint(p1);
-    // link.addpoint(p2);
+    link.addpoint(p1);
+    link.addpoint(p2);
+    myBPdiagram.flow.addLink(link);
     console.log(link);
  }
+ //////////transition
+function AddTransition(){
+  SelectedNode= myDiagram.selection.first();
+  condition=document.getElementById("condition1");
+  if(condition.checked==true)
+  {var a="true";
+  transition=new BPTransition(a,""); 
+  myBPdiagram.flow.getNodeById(SelectedNode.data.key).addTransition(transition);
+  }
+}
+function elementselect(){
+  for (let i=0;i<nodeDataArray.length;i++){
+    document.write("<option>"+nodeDataArray[i].text+"</option>");
+  }
+}
  
    ////////changer le nom d'un noued   
 function changeNodeText(){
@@ -247,30 +265,6 @@ function onReceiveExecuteSetVariable(){
       console.log(action2.getString());
       myBPdiagram.flow.getNodeById(SelectedNode.data.key).addReceiveAction(action2.getString());
     }
-}
-//////////transition
-function AddTransition(){
-  SelectedNode= myDiagram.selection.first();
-  if (SelectedNode !== null) {
-    for(let i=0;i<nodeDataArray.length;i++){ 
-      if(nodeDataArray.length===1){
-        transition=new BPTransition("true",""); 
-        myBPdiagram.flow.getNodeById(SelectedNode.data.key).addTransition(transition);
-      }
-      else{
-        transition=new BPTransition("true",nodeDataArray[i+1]); 
-        myBPdiagram.flow.getNodeById(SelectedNode.data.key).addTransition(transition);
-      }
-    }      
-  }
-}
-  
-   
-
-function elementselect(){
-  for (var i=0;i<nodeDataArray.length;i++){
-    document.write("<option>"+nodeDataArray[i].text+"</option>");
-  }
 }
 
 function save() {
