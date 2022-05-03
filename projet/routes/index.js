@@ -90,7 +90,7 @@ router.get('/profile', function (req, res, next) {
 			res.redirect('/');
 		}else{
 			//console.log("found");
-			return res.render('htmlProject.ejs', {"name":data.username,"email":data.email});
+			return res.render('flowPage.ejs', {"name":data.username,"email":data.email});
 		}
 	});
 });
