@@ -3,4 +3,16 @@
 3. add intents
 4. add persistence (rdbms postgres) tobedefined
 5. Revamp the UI
-
+REPORT
+1. UML Diagrams (use cases, class diagram, ..)
+2. Introduction Générale :étude de l'existant (chatbot builders and engines state of the art (botpress included)) & Problématique & objectif
+3. Modélisation
+3.1 use cases (with description)
+3.2 classes/entities (with description)
+3.3 Persistence: Entity Relation diagram + physical model (sql)
+4. UI
+4.1 conception
+4.2 events (javascript events)
+4.3
+5. Implementation
+5.1 Technologies ??
